@@ -1,0 +1,385 @@
+<main>
+  <div class="body">
+    <div id="sidebar" class="sidebar">
+      <!-- Sidebar start -->
+      <div class="steps">
+        <span class="step-number"
+          ><div [ngClass]="step === 1 ? 'circle active' : 'circle'">
+            1
+          </div></span
+        >
+        <div class="sidebar-info">
+          <span class="step-n">Step 1</span>
+          <span class="step-name"> Your info</span>
+        </div>
+      </div>
+      <div class="steps">
+        <span class="step-number"
+          ><div [ngClass]="step === 2 ? 'circle active' : 'circle'">
+            2
+          </div></span
+        >
+        <div class="sidebar-info">
+          <span class="step-n">Step 2</span>
+          <span class="step-name"> Select plan</span>
+        </div>
+      </div>
+      <div class="steps">
+        <span class="step-number"
+          ><div [ngClass]="step === 3 ? 'circle active' : 'circle'">
+            3
+          </div></span
+        >
+        <div class="sidebar-info">
+          <span class="step-n">Step 3</span>
+          <span class="step-name">Add-ons</span>
+        </div>
+      </div>
+      <div class="steps">
+        <span class="step-number"
+          ><div [ngClass]="step === 4 ? 'circle active' : 'circle'">
+            4
+          </div></span
+        >
+        <div class="sidebar-info">
+          <span class="step-n">Step 4</span>
+          <span class="step-name">Summary</span>
+        </div>
+      </div>
+      <!-- Sidebar end -->
+    </div>
+
+    <div id="form" class="main-form">
+      <!-- Step 1 start -->
+      <div class="titles">
+        <h1 class="title">{{ titles[step] }}</h1>
+        <h5 class="subtitle">{{ subtitles[step] }}</h5>
+      </div>
+      <div *ngIf="this.step === 1" class="form">
+        <form #personalInfo="ngForm" (ngSubmit)="setName(personalInfo)">
+          <div class="form-tile">
+            <div
+              *ngIf="name.invalid && (name.dirty || name.touched)"
+              class="alert"
+            >
+              <span *ngIf="name.errors?.['required']"
+                >This field is required.</span
+              >
+            </div>
+            <label for="name">Name</label>
+            <input
+              type="text"
+              placeholder="e.g. Stephen King"
+              name="name"
+              ngModel
+              required
+              #name="ngModel"
+            />
+          </div>
+
+          <div class="form-tile">
+            <div
+              *ngIf="email.invalid && (email.dirty || email.touched)"
+              class="alert"
+            >
+              <span *ngIf="email.errors?.['required']"
+                >This field is required.</span
+              >
+            </div>
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              name="email"
+              placeholder=" e.g. stephenking@lorem.com"
+              ngModel
+              required
+              #email="ngModel"
+            />
+          </div>
+          <div class="form-tile">
+            <div
+              *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+              class="alert"
+            >
+              <span *ngIf="phone.errors?.['required']"
+                >This field is required.</span
+              >
+            </div>
+            <label for="phone">Phone Number </label>
+            <input
+              type="phone"
+              name="phone"
+              placeholder="e.g. +1 234 567 890"
+              ngModel
+              required
+              #phone="ngModel"
+            />
+          </div>
+
+          <div class="btns">
+            <input type="submit" value="Next Step" />
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 1 end -->
+
+      <!-- Step 2 start -->
+      <div *ngIf="this.step === 2" class="form">
+        <form #plan="ngForm" (ngSubmit)="setPlan(plan)">
+          <div class="plans">
+            <input
+              type="radio"
+              name="plan"
+              id="1"
+              value="arcade"
+              #arcade="ngModel"
+              ngModel
+            />
+            <label for="1" class="class-btns">
+              <img
+                src="../../assets/images/icon-arcade.svg"
+                alt="arcade icon"
+              />
+              <div class="text-class">
+                <p><b>Arcade</b></p>
+                <p>
+                  ${{ !periodicity ? price["arcade"] * 10 : price["arcade"] }}
+                  {{ !periodicity ? "/yr" : "/mo" }}
+                </p>
+                <p *ngIf="!periodicity" class="text-free">
+                  <b>2 months free</b>
+                </p>
+              </div></label
+            >
+
+            <input
+              type="radio"
+              name="plan"
+              id="2"
+              value="advanced"
+              #advanced="ngModel"
+              ngModel
+            />
+            <label for="2" class="class-btns">
+              <img
+                src="../../assets/images/icon-advanced.svg"
+                alt="advanced icon"
+              />
+              <div class="text-class">
+                <p><b>Advanced</b></p>
+                <p>
+                  ${{
+                    !periodicity ? price["advanced"] * 10 : price["advanced"]
+                  }}
+                  {{ !periodicity ? "/yr" : "/mo" }}
+                </p>
+                <p *ngIf="!periodicity" class="text-free">
+                  <b>2 months free</b>
+                </p>
+              </div></label
+            >
+
+            <input
+              type="radio"
+              name="plan"
+              id="3"
+              value="pro"
+              #pro="ngModel"
+              ngModel
+            />
+            <label for="3" class="class-btns">
+              <img src="../../assets/images/icon-pro.svg" alt="pro icon" />
+              <div class="text-class">
+                <p><b>Pro</b></p>
+                <p>
+                  ${{ !periodicity ? price["pro"] * 10 : price["pro"] }}
+                  {{ !periodicity ? "/yr" : "/mo" }}
+                </p>
+                <p *ngIf="!periodicity" class="text-free">
+                  <b>2 months free</b>
+                </p>
+              </div></label
+            >
+          </div>
+          <div id="slider">
+            <span class="slider-min">Monthly</span>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              class="slider"
+              (change)="changePeriod()"
+              [ngModelOptions]="{ standalone: true }"
+              ngModel
+            />
+            <span class="slider-max">Yearly </span>
+          </div>
+          <div class="btns">
+            <button (click)="back()">Go Back</button>
+            <input type="submit" value="Next Step" />
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 2 end -->
+
+      <!-- Step 3 start -->
+
+      <div *ngIf="this.step === 3" class="form">
+        <form #addon="ngForm" (ngSubmit)="setAddons(addon)">
+          <label for="onlineService" class="tile-checkbox">
+            <input
+              type="checkbox"
+              id="onlineService"
+              name="online"
+              #onlineService="ngModel"
+              ngModel
+            />
+            <div class="addons-text">
+              <span><b>Online service</b></span>
+              <span>Access to multiplayer games </span>
+            </div>
+            <div class="addons-prices">
+              <span class="tile-prices">
+                + ${{
+                  !periodicity
+                    ? addonPrices["online"] * 10
+                    : addonPrices["online"]
+                }}
+                {{ !periodicity ? "/yr" : "/mo" }}
+              </span>
+            </div>
+          </label>
+
+          <label for="largerStorage" class="tile-checkbox">
+            <input
+              type="checkbox"
+              id="largerStorage"
+              name="storage"
+              #largerStorage="ngModel"
+              ngModel
+            />
+
+            <div class="addons-text">
+              <span><b>Larger storage</b></span>
+              <span>Extra 1TB of cloud save </span>
+            </div>
+            <div class="addons-prices">
+              <span class="tile-prices">
+                + ${{
+                  !periodicity
+                    ? addonPrices["storage"] * 10
+                    : addonPrices["storage"]
+                }}
+                {{ !periodicity ? "/yr" : "/mo" }}
+              </span>
+            </div></label
+          >
+          <label for="customizableProfile" class="tile-checkbox">
+            <input
+              type="checkbox"
+              id="customizableProfile"
+              name="custom"
+              #customizableProfile="ngModel"
+              ngModel
+            />
+
+            <div class="addons-text">
+              <span><b>Customizable Profile</b></span>
+              <span>Custom theme on your profile </span>
+            </div>
+            <div class="addons-prices">
+              <span class="tile-prices">
+                + ${{
+                  !periodicity
+                    ? addonPrices["custom"] * 10
+                    : addonPrices["custom"]
+                }}
+                {{ !periodicity ? "/yr" : "/mo" }}
+              </span>
+            </div>
+          </label>
+
+          <div class="btns">
+            <button (click)="back()">Go Back</button>
+            <input type="submit" value="Next Step" />
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 3 end -->
+
+      <!-- Step 4 start -->
+      <div *ngIf="this.step === 4" class="form">
+        <div class="totals">
+          <div class="plan">
+            <div class="plan-name">
+              <b>
+                {{ total.plan[0].toUpperCase() + total.plan.substring(1) }}
+
+                ({{ !this.total.periodicity ? "Annual" : "Monthly" }})
+              </b>
+
+              <p style="text-decoration: underline" (click)="changePlan()">
+                (Change)
+              </p>
+            </div>
+            <div class="plan-price">
+              $
+              {{ this.total.price }}
+              {{ !this.total.periodicity ? "/yr" : "/mo" }}
+            </div>
+          </div>
+
+          <div class="addons" *ngFor="let name of this.total.addons">
+            <div class="addon-name">
+              {{ addonRefs[name] }}
+            </div>
+            <div class="addon-price">
+              + $
+              {{
+                this.total.periodicity
+                  ? addonPrices[name]
+                  : addonPrices[name] * 10
+              }}
+              {{ !this.total.periodicity ? "/yr" : "/mo" }}
+            </div>
+          </div>
+        </div>
+        <div class="total">
+          <div class="total-name">
+            Total (per {{ !this.total.periodicity ? "/year" : "/month" }})
+          </div>
+          <div class="total-price">
+            ${{ totalPrice }}{{ !this.total.periodicity ? "/yr" : "/mo" }}
+          </div>
+        </div>
+
+        <div class="btns">
+          <button (click)="back()">Go Back</button>
+          <button (click)="final()">Next Step</button>
+        </div>
+      </div>
+      <!-- Dynamically add subscription and add-on selections here -->
+
+      <!-- Step 4 end -->
+
+      <!-- Step 5 start -->
+      <div *ngIf="this.step === 5" class="form final">
+        <img
+          src="../../assets/images/icon-thank-you.svg"
+          alt="image"
+          class="img-thanks"
+        />
+        <h1 class="title">Thank you!</h1>
+        <h5 class="subtitle">
+          Thanks for confirming your subscription! We hope you have fun using
+          our platform. If you ever need support, please feel free to email us
+          at support@loremgaming.com.
+        </h5>
+      </div>
+      <!-- Step 5 end -->
+    </div>
+  </div>
+</main>
