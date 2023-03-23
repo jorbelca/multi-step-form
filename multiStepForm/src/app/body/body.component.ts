@@ -17,7 +17,7 @@ export interface Ref {
 export class BodyComponent {
   total: any = {};
   totalPrice = 0;
-  step = 2;
+  step = 1;
   periodicity = 0;
   titles: Titles = {
     1: 'Personal info ',
